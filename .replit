@@ -4,7 +4,7 @@ modules = ["nodejs-20", "web"]
 channel = "stable-25_05"
 
 [workflows]
-runButton = "Start Travel Blog"
+runButton = "Deploy Travel Blog"
 
 [[workflows.workflow]]
 name = "Start Travel Blog"
@@ -15,6 +15,55 @@ mode = "sequential"
 task = "shell.exec"
 args = "cd MilesaloneJourney-11-main && npm install && npm run build && npm start"
 
+[[workflows.workflow]]
+name = "Deploy Travel Blog"
+author = 46716850
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd MilesaloneJourney-11-main"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔍 Checking database connection...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node setup-db.js"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"📦 Installing dependencies...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🔨 Building application...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🗄️ Setting up database schema...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run db:push"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"🚀 Starting travel blog...\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm start"
+
 [deployment]
 run = ["sh", "-c", "cd MilesaloneJourney-11-main && npm start"]
-build = ["sh", "-c", "cd MilesaloneJourney-11-main && npm run build"]
+build = ["sh", "-c", "cd MilesaloneJourney-11-main && npm install && npm run build"]
