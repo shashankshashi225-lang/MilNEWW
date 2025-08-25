@@ -14,3 +14,7 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd MilesaloneJourney-11-main && npm install && npm run build && npm start"
+
+[deployment]
+run = ["sh", "-c", "cd MilesaloneJourney-11-main && npm start"]
+build = ["sh", "-c", "cd MilesaloneJourney-11-main && npm run build"]
